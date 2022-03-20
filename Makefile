@@ -6,7 +6,7 @@ PREFIX=/usr/local
 #OPT = -O3 -DNDEBUG
 OPT = -g -ggdb
 
-CFLAGS += --std=c++11 -fno-strict-aliasing -Wall -c -I. -I./include -I./src/ $(OPT)
+CFLAGS += --std=c++11 -fno-strict-aliasing -Wall -c -I. -I./include -I./src/ -I/Program\ Files/OpenSSL-Win64/lib $(OPT)
 
 LDFLAGS+= -Wall -lpthread -lssl -lcrypto
 
