@@ -7,12 +7,16 @@
 
 #include <string>
 
+
 #include <openssl/evp.h>
 #include <random>
 
 namespace cuckoofilter {
+typedef uint8_t u_int8_t;
+typedef uint16_t u_int16_t;
 
 class HashUtil {
+  
  public:
   // Bob Jenkins Hash
   static uint32_t BobHash(const void *buf, size_t length, uint32_t seed = 0);

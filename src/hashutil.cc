@@ -1,6 +1,8 @@
 // Pulled from lookup3.c by Bob Jenkins
 #include "hashutil.h"
 
+
+
 #define rot(x, k) (((x) << (k)) | ((x) >> (32 - (k))))
 #define mix(a,b,c)                              \
     {                                           \
