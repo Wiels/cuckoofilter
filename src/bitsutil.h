@@ -20,6 +20,7 @@ namespace cuckoofilter {
 
 inline uint64_t upperpower2(uint64_t x) {
   x--;
+  //std::cout<<"x voor: "<<x<<std::endl;
   x |= x >> 1;
   x |= x >> 2;
   x |= x >> 4;
@@ -27,6 +28,7 @@ inline uint64_t upperpower2(uint64_t x) {
   x |= x >> 16;
   x |= x >> 32;
   x++;
+  //std::cout<<"x na: "<<x<<std::endl;
   return x;
 }
 

@@ -76,6 +76,8 @@ class CuckooFilter {
     // index ^ HashUtil::BobHash((const void*) (&tag), 4)) & table_->INDEXMASK;
     // now doing a quick-n-dirty way:
     // 0x5bd1e995 is the hash constant from MurmurHash2
+    std::cout<<"tag: "<<tag<<std::endl;
+    std::cout<<"xor: "<<(tag * 0x5bd1e995)<<std::endl;
     return IndexHash((uint32_t)(index ^ (tag * 0x5bd1e995)));
   }
 
@@ -90,11 +92,12 @@ class CuckooFilter {
   explicit CuckooFilter(const size_t max_num_keys) : num_items_(0), victim_(), hasher_() {
     size_t assoc = 4;
     size_t num_buckets = upperpower2(std::max<uint64_t>(1, max_num_keys / assoc));
-    double frac = (double)max_num_keys / num_buckets / assoc;
-    if (frac > 0.96) {
-      num_buckets <<= 1;
-    }
+    //double frac = (double)max_num_keys / num_buckets / assoc;
+    //if (frac > 0.96) {
+    //  num_buckets <<= 1;
+    //}
     victim_.used = false;
+    std::cout<<"num_buckets is: "<<num_buckets<<std::endl;
     table_ = new TableType<bits_per_item>(num_buckets);
   }
 
@@ -148,6 +151,8 @@ Status CuckooFilter<ItemType, bits_per_item, TableType, HashFamily>::AddImpl(
     oldtag = 0;
     if (table_->InsertTagToBucket(curindex, curtag, kickout, oldtag)) {
       num_items_++;
+      //std::cout <<"Index: "<< curindex <<std::endl;
+      //std::cout <<"tag: "<< curtag<<std::endl;
       return Ok;
     }
     if (kickout) {

@@ -61,9 +61,9 @@ class TwoIndependentMultiplyShift {
 
  public:
    TwoIndependentMultiplyShift() {
-     mult1 = 0x7D104B182AC685B7;
-     mult2 = 0x381AD88EFC3D5D70;
-     add1 = 0x5216C6EFAF2B2ABF;
+     mult1 = 0x1D104B182AC685B7;
+     mult2 = 0x211AD88EFC3D5D70;
+     add1 = 0x1216C6EFAF2B2ABF;
      add2 = 0x3F04EE4FFE1CB0BE;
 
   }

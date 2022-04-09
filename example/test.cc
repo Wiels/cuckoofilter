@@ -10,7 +10,7 @@ using cuckoofilter::CuckooFilter;
 using namespace cuckoofilter;
 
 int main(int argc, char **argv) {
-  size_t total_items = 10000;
+  size_t total_items = 2048;
 
   // Create a cuckoo filter where each item is of type size_t and
   // use 12 bits for each item:
@@ -23,22 +23,24 @@ int main(int argc, char **argv) {
 
   // Insert items to this cuckoo filter
   size_t num_inserted = 0;
-  for (size_t i = 0; i < total_items*0.5; i++, num_inserted++) {
-    if (filter.Add(i) != cuckoofilter::Ok) {
-      break;
-    }
+  for (size_t i = 0; i < 1000; i++, num_inserted++) {
+    filter.Add(i);
+    //if (filter.Add(i) != cuckoofilter::Ok) {
+     // break;
+    //}
   }
 
   // Check if previously inserted items are in the filter, expected
   // true for all items
-  for (size_t i = 0; i < num_inserted; i++) {
+  for (size_t i = 0; i < 1000; i++) {
     assert(filter.Contain(i) == cuckoofilter::Ok);
   }
 
   // Check non-existing items, a few false positives expected
   size_t total_queries = 0;
   size_t false_queries = 0;
-  for (size_t i = total_items; i < 2 * total_items; i++) {
+  //for (size_t i = total_items; i < 2 * total_items; i++) {
+    for (size_t i =2048; i < 2*2048; i++) {
     if (filter.Contain(i) == cuckoofilter::Ok) {
       false_queries++;
     }
