@@ -32,6 +32,7 @@ const size_t kMaxCuckooCount = 500;
 template <typename ItemType, size_t bits_per_item,
           template <size_t> class TableType = SingleTable,
           typename HashFamily = TwoIndependentMultiplyShift>
+ //           typename HashFamily = HashUtil::MD5Hash>
 class CuckooFilter {
   // Storage of items
   TableType<bits_per_item> *table_;

@@ -51,9 +51,42 @@ class HashUtil {
 // See Martin Dietzfelbinger, "Universal hashing and k-wise independent random
 // variables via integer arithmetic without primes".
 class TwoIndependentMultiplyShift {
-  unsigned __int128 multiply_, add_;
+  //unsigned __int128 multiply_, add_;
+  unsigned __int64 mult1;
+  unsigned __int64 mult2;
+  unsigned __int64 add1;
+  unsigned __int64 add2;
+  
+  
 
  public:
+   TwoIndependentMultiplyShift() {
+     mult1 = 0x7D104B182AC685B7;
+     mult2 = 0x381AD88EFC3D5D70;
+     add1 = 0x5216C6EFAF2B2ABF;
+     add2 = 0x3F04EE4FFE1CB0BE;
+
+  }
+
+  
+  
+
+  uint64_t operator()(uint64_t key) const {
+    unsigned __int64 temp1;
+    unsigned __int64 temp2;
+    temp1 = (add1 + mult1*key) >> 32;
+    temp2 = (add2 + mult2*key) >> 32;
+    unsigned __int64 result;
+    result = temp1;
+    result = result << 32;
+    result |= temp2;
+    return result;
+
+    //cast key to the type of multiply
+   // return (add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64;
+
+  }
+ /*
   TwoIndependentMultiplyShift() {
     ::std::random_device random;
     for (auto v : {&multiply_, &add_}) {
@@ -63,10 +96,28 @@ class TwoIndependentMultiplyShift {
         *v |= random();
       }
     }
+    
+   multiply_ = create_uint128(0x7D104B182AC685B7,0x381AD88EFC3D5D70);
+   add_ = create_uint128(0x5216C6EFAF2B2ABF,0x3F04EE4FFE1CB0BE);
+
   }
 
+  
+  
+
   uint64_t operator()(uint64_t key) const {
+    //cast key to the type of multiply
     return (add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64;
+
+  }
+  */
+  private:
+  unsigned __int128 create_uint128(uint64_t val1, uint64_t val2){
+    unsigned __int128 result;
+    result = val1;
+    result = result << 64;
+    result |= val2;
+    return result;
   }
 };
 

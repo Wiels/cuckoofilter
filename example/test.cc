@@ -7,9 +7,10 @@
 #include <vector>
 
 using cuckoofilter::CuckooFilter;
+using namespace cuckoofilter;
 
 int main(int argc, char **argv) {
-  size_t total_items = 1000000;
+  size_t total_items = 10000;
 
   // Create a cuckoo filter where each item is of type size_t and
   // use 12 bits for each item:
@@ -18,11 +19,11 @@ int main(int argc, char **argv) {
   // PackedTable, accepting keys of size_t type and making 13 bits
   // for each key:
   //   CuckooFilter<size_t, 13, cuckoofilter::PackedTable> filter(total_items);
-  CuckooFilter<size_t, 12> filter(total_items);
+  CuckooFilter<size_t, 8> filter(total_items);
 
   // Insert items to this cuckoo filter
   size_t num_inserted = 0;
-  for (size_t i = 0; i < total_items; i++, num_inserted++) {
+  for (size_t i = 0; i < total_items*0.5; i++, num_inserted++) {
     if (filter.Add(i) != cuckoofilter::Ok) {
       break;
     }
