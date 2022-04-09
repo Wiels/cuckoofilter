@@ -51,5 +51,37 @@ int main(int argc, char **argv) {
   std::cout << "false positive rate is "
             << 100.0 * false_queries / total_queries << "%\n";
 
+  filter.Add(388877);
+  filter.Add(252150);
+  filter.Add(91233);
+  filter.Add(729238);
+  filter.Add(818960);
+  filter.Add(431594);
+  filter.Add(611038);
+  //assert(filter.Add(1500)!=cuckoofilter::NotEnoughSpace);
+  filter.Add(549794);
+  //filter.Add(341872);
+  assert(filter.Add(639516)!=cuckoofilter::NotEnoughSpace);
+  //filter.Add(1500);
+  //assert(filter.Add(1500)!=cuckoofilter::NotSupported);
+  /*filter.Add(1500);
+  filter.Add(1500);
+  filter.Add(1500);
+  filter.Add(1500);
+  
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  filter.Delete(1500);
+  */
+  //assert(filter.Delete(1500)==cuckoofilter::NotFound);
+  //assert(filter.Add(1500)!=cuckoofilter::NotEnoughSpace);
+  //assert(filter.Contain(1500) == cuckoofilter::Ok);
+
   return 0;
 }

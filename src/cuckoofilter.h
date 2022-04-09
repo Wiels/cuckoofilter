@@ -76,8 +76,8 @@ class CuckooFilter {
     // index ^ HashUtil::BobHash((const void*) (&tag), 4)) & table_->INDEXMASK;
     // now doing a quick-n-dirty way:
     // 0x5bd1e995 is the hash constant from MurmurHash2
-    std::cout<<"tag: "<<tag<<std::endl;
-    std::cout<<"xor: "<<(tag * 0x5bd1e995)<<std::endl;
+    //std::cout<<"tag: "<<tag<<std::endl;
+    //std::cout<<"xor: "<<(tag * 0x5bd1e995)<<std::endl;
     return IndexHash((uint32_t)(index ^ (tag * 0x5bd1e995)));
   }
 
@@ -131,6 +131,7 @@ Status CuckooFilter<ItemType, bits_per_item, TableType, HashFamily>::Add(
   uint32_t tag;
 
   if (victim_.used) {
+    std::cout<<"Insertion failed"<<std::endl;
     return NotEnoughSpace;
   }
 
