@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   
   // Insert items to this cuckoo filter
   size_t num_inserted = 0;
-  for (size_t i = 0; i < total_items*0.25; i++, num_inserted++) {
+  for (size_t i = 0; i < total_items; i++, num_inserted++) {
     //filter.Add(i);
     if (filter.Add(i) != cuckoofilter::Ok) {
       std::cout<<"Problem at: "<<i<<std::endl;
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
   // Output the measured false positive rate
   std::cout << "false positive rate is "
             << 100.0 * false_queries / total_queries << "%\n";
-
+/*
   filter.Add(13002);
   filter.Add(559833);
   filter.Add(933071);
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
   //filter.Add(1500);
   //assert(filter.Add(1500)!=cuckoofilter::NotSupported);
   assert(filter.Add(99999)==cuckoofilter::Ok);
-  /*
+  
   filter.Add(1500);
   filter.Add(1500);
   filter.Add(1500);
