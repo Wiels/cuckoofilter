@@ -154,6 +154,8 @@ Status CuckooFilter<ItemType, bits_per_item, TableType, HashFamily>::AddImpl(
       num_items_++;
       //std::cout <<"Index: "<< curindex <<std::endl;
       //std::cout <<"tag: "<< curtag<<std::endl;
+      //oldtag = AltIndex(curindex,curtag);
+      //std::cout<<oldtag<<std::endl;
       return Ok;
     }
     if (kickout) {

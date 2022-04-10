@@ -10,7 +10,7 @@ using cuckoofilter::CuckooFilter;
 using namespace cuckoofilter;
 
 int main(int argc, char **argv) {
-  size_t total_items = 2048;
+  size_t total_items = 256*4;
 
   // Create a cuckoo filter where each item is of type size_t and
   // use 12 bits for each item:
@@ -20,19 +20,23 @@ int main(int argc, char **argv) {
   // for each key:
   //   CuckooFilter<size_t, 13, cuckoofilter::PackedTable> filter(total_items);
   CuckooFilter<size_t, 8> filter(total_items);
-
+  //assert(filter.Add(1)==cuckoofilter::Ok);
+  //assert(filter.Contain(1)==cuckoofilter::Ok);
+  //filter.Add(9576);
+  
   // Insert items to this cuckoo filter
   size_t num_inserted = 0;
-  for (size_t i = 0; i < 1000; i++, num_inserted++) {
-    filter.Add(i);
-    //if (filter.Add(i) != cuckoofilter::Ok) {
+  for (size_t i = 0; i < total_items*0.25; i++, num_inserted++) {
+    //filter.Add(i);
+    if (filter.Add(i) != cuckoofilter::Ok) {
+      std::cout<<"Problem at: "<<i<<std::endl;
      // break;
-    //}
+    }
   }
-
+  std::cout<<"Number of inserted elements is: "<<num_inserted<<std::endl;
   // Check if previously inserted items are in the filter, expected
   // true for all items
-  for (size_t i = 0; i < 1000; i++) {
+  for (size_t i = 0; i < total_items*0.25; i++) {
     assert(filter.Contain(i) == cuckoofilter::Ok);
   }
 
@@ -40,7 +44,7 @@ int main(int argc, char **argv) {
   size_t total_queries = 0;
   size_t false_queries = 0;
   //for (size_t i = total_items; i < 2 * total_items; i++) {
-    for (size_t i =2048; i < 2*2048; i++) {
+    for (size_t i =total_items; i < 2*total_items; i++) {
     if (filter.Contain(i) == cuckoofilter::Ok) {
       false_queries++;
     }
@@ -51,20 +55,21 @@ int main(int argc, char **argv) {
   std::cout << "false positive rate is "
             << 100.0 * false_queries / total_queries << "%\n";
 
-  filter.Add(388877);
-  filter.Add(252150);
-  filter.Add(91233);
-  filter.Add(729238);
-  filter.Add(818960);
-  filter.Add(431594);
-  filter.Add(611038);
+  filter.Add(13002);
+  filter.Add(559833);
+  filter.Add(933071);
+  filter.Add(831160);
+  filter.Add(123412);
+  filter.Add(682432);
+  filter.Add(663905);
   //assert(filter.Add(1500)!=cuckoofilter::NotEnoughSpace);
-  filter.Add(549794);
+  filter.Add(19340);
   //filter.Add(341872);
-  assert(filter.Add(639516)!=cuckoofilter::NotEnoughSpace);
+  assert(filter.Add(720750)==cuckoofilter::Ok);
   //filter.Add(1500);
   //assert(filter.Add(1500)!=cuckoofilter::NotSupported);
-  /*filter.Add(1500);
+  assert(filter.Add(99999)==cuckoofilter::Ok);
+  /*
   filter.Add(1500);
   filter.Add(1500);
   filter.Add(1500);
