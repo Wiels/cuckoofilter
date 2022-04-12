@@ -7,7 +7,7 @@
 
 #include <string>
 
-
+#include <iostream>
 #include <openssl/evp.h>
 #include <random>
 
@@ -51,15 +51,18 @@ class HashUtil {
 // See Martin Dietzfelbinger, "Universal hashing and k-wise independent random
 // variables via integer arithmetic without primes".
 class TwoIndependentMultiplyShift {
-  //unsigned __int128 multiply_, add_;
+  unsigned __int128 multiply_, add_;
+  /*
   unsigned __int64 mult1;
   unsigned __int64 mult2;
   unsigned __int64 add1;
   unsigned __int64 add2;
+  */
   
   
 
  public:
+ /*
    TwoIndependentMultiplyShift() {
      mult1 = 0x01104B182AC685B7;
      mult2 = 0x021AD88EFC3D5D70;
@@ -67,9 +70,6 @@ class TwoIndependentMultiplyShift {
      add2 = 0x0304EE4FFE1CB0BE;
 
   }
-
-  
-  
 
   uint64_t operator()(uint64_t key) const {
     unsigned __int64 temp1;
@@ -86,8 +86,9 @@ class TwoIndependentMultiplyShift {
    // return (add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64;
 
   }
- /*
+ */
   TwoIndependentMultiplyShift() {
+    /*
     ::std::random_device random;
     for (auto v : {&multiply_, &add_}) {
       *v = random();
@@ -96,9 +97,12 @@ class TwoIndependentMultiplyShift {
         *v |= random();
       }
     }
-    
+    */
+   //multiply_ = 0x308962904DFF83AC2EE4194CDE2A3872;
+   //add_ = 0x5AC8C19A22C985CEC64953EA97EC889B;
    multiply_ = create_uint128(0x7D104B182AC685B7,0x381AD88EFC3D5D70);
    add_ = create_uint128(0x5216C6EFAF2B2ABF,0x3F04EE4FFE1CB0BE);
+   //std::cout<<multiply_<<std::endl;
 
   }
 
@@ -106,17 +110,22 @@ class TwoIndependentMultiplyShift {
   
 
   uint64_t operator()(uint64_t key) const {
+    //std::cout<<key<<std::endl;
     //cast key to the type of multiply
+    //std::cout<<(add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64<<std::endl;
     return (add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64;
+    
 
   }
-  */
+  
   private:
   unsigned __int128 create_uint128(uint64_t val1, uint64_t val2){
     unsigned __int128 result;
     result = val1;
     result = result << 64;
     result |= val2;
+    //std::cout<<val1<<std::endl;
+    //std::cout<<val2<<std::endl;
     return result;
   }
 };

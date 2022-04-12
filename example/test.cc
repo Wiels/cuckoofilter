@@ -12,6 +12,8 @@ using namespace cuckoofilter;
 int main(int argc, char **argv) {
   size_t total_items = 256*4;
 
+
+
   // Create a cuckoo filter where each item is of type size_t and
   // use 12 bits for each item:
   //    CuckooFilter<size_t, 12> filter(total_items);
@@ -20,13 +22,16 @@ int main(int argc, char **argv) {
   // for each key:
   //   CuckooFilter<size_t, 13, cuckoofilter::PackedTable> filter(total_items);
   CuckooFilter<size_t, 8> filter(total_items);
+  //filter.Add(123);
   //assert(filter.Add(1)==cuckoofilter::Ok);
   //assert(filter.Contain(1)==cuckoofilter::Ok);
   //filter.Add(9576);
   
+
+  
   // Insert items to this cuckoo filter
   size_t num_inserted = 0;
-  for (size_t i = 0; i < total_items; i++, num_inserted++) {
+  for (size_t i = 0; i < total_items*0.5; i++, num_inserted++) {
     //filter.Add(i);
     if (filter.Add(i) != cuckoofilter::Ok) {
       std::cout<<"Problem at: "<<i<<std::endl;
@@ -36,7 +41,7 @@ int main(int argc, char **argv) {
   std::cout<<"Number of inserted elements is: "<<num_inserted<<std::endl;
   // Check if previously inserted items are in the filter, expected
   // true for all items
-  for (size_t i = 0; i < total_items*0.25; i++) {
+  for (size_t i = 0; i < total_items*0.5; i++) {
     assert(filter.Contain(i) == cuckoofilter::Ok);
   }
 

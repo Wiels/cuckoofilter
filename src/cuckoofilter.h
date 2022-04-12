@@ -67,6 +67,7 @@ class CuckooFilter {
   inline void GenerateIndexTagHash(const ItemType& item, size_t* index,
                                    uint32_t* tag) const {
     const uint64_t hash = hasher_(item);
+    //std::cout<<hash<<std::endl;
     *index = IndexHash(hash >> 32);
     *tag = TagHash(hash);
   }
