@@ -78,7 +78,6 @@ class CuckooFilter {
     // now doing a quick-n-dirty way:
     // 0x5bd1e995 is the hash constant from MurmurHash2
     //std::cout<<"tag: "<<tag<<std::endl;
-    //std::cout<<"xor: "<<(tag * 0x5bd1e995)<<std::endl;
     return IndexHash((uint32_t)(index ^ (tag * 0x5bd1e995)));
   }
 
@@ -98,7 +97,7 @@ class CuckooFilter {
     //  num_buckets <<= 1;
     //}
     victim_.used = false;
-    std::cout<<"num_buckets is: "<<num_buckets<<std::endl;
+    //std::cout<<"num_buckets is: "<<num_buckets<<std::endl;
     table_ = new TableType<bits_per_item>(num_buckets);
   }
 

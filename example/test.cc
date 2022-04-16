@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <random>
 
 #include <iostream>
 #include <vector>
@@ -10,10 +11,10 @@ using cuckoofilter::CuckooFilter;
 using namespace cuckoofilter;
 
 int main(int argc, char **argv) {
-  size_t total_items = 256*4;
+  size_t total_items = 4096*4;
 
-
-
+  
+  
   // Create a cuckoo filter where each item is of type size_t and
   // use 12 bits for each item:
   //    CuckooFilter<size_t, 12> filter(total_items);
@@ -21,13 +22,66 @@ int main(int argc, char **argv) {
   // PackedTable, accepting keys of size_t type and making 13 bits
   // for each key:
   //   CuckooFilter<size_t, 13, cuckoofilter::PackedTable> filter(total_items);
-  CuckooFilter<size_t, 8> filter(total_items);
+  
   //filter.Add(123);
   //assert(filter.Add(1)==cuckoofilter::Ok);
   //assert(filter.Contain(1)==cuckoofilter::Ok);
   //filter.Add(9576);
+
+
+  //CuckooFilter<size_t, 8> filter(total_items);
   
 
+  
+  size_t pollute_with = 6000;
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<int> dist(0,100000);
+  std::random_device rdt;
+  std::mt19937 gent(rdt());
+  std::uniform_int_distribution<int> distt(999999,1215752191);
+  float sum =0;
+  float iterations = 0;
+  for (size_t jj = 0; jj < 200; jj++)
+  {
+  CuckooFilter<size_t, 8> filter(total_items);
+  
+  
+  size_t ins_elem = 0;
+  size_t candidate =0;
+  while (ins_elem<pollute_with)
+  {
+    candidate = dist(gen);
+    if (filter.Contain(candidate)== cuckoofilter::Ok)
+    {
+      
+    }
+    else{
+      filter.Add(candidate);
+      ins_elem+=1;
+    }
+    
+  }
+
+  float false_positive_counter = 0.;
+  float query_counter = 0.;
+  size_t check=0;
+  for (size_t ii = 0; ii < total_items*10; ii++)
+  {
+    check = dist(gen)+100100;
+    //std::cout<<check<<std::endl;
+    if(filter.Contain(check)==cuckoofilter::Ok)
+    {
+      false_positive_counter+=1;
+    }
+    query_counter+=1;
+  }
+  //std::cout<<(false_positive_counter*1.0/(query_counter*1.0)*(100.0))<<std::endl;
+  sum+=(false_positive_counter*1.0/(query_counter*1.0)*(100.0));
+  iterations+=1;
+  }
+  std::cout<<sum/(iterations*1.0)<<std::endl;
+/*
   
   // Insert items to this cuckoo filter
   size_t num_inserted = 0;
@@ -49,7 +103,7 @@ int main(int argc, char **argv) {
   size_t total_queries = 0;
   size_t false_queries = 0;
   //for (size_t i = total_items; i < 2 * total_items; i++) {
-    for (size_t i =total_items; i < 2*total_items; i++) {
+    for (size_t i =total_items; i < 20*total_items; i++) {
     if (filter.Contain(i) == cuckoofilter::Ok) {
       false_queries++;
     }
